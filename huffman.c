@@ -7,7 +7,6 @@
 typedef struct HuffmanNode {
 	CharVector* letters;
 	int count;
-	int height;
 	struct HuffmanNode* left;
 	struct HuffmanNode* right;
 } HuffmanNode;
@@ -17,7 +16,6 @@ HuffmanNode* new_node(void)
 	HuffmanNode* node = (HuffmanNode*) malloc(sizeof(HuffmanNode));
 	node->letters = new_vector();
 	node->count = 0;
-	node->height = 0;
 	node->left = NULL;
 	node->right = NULL;
 	return node;
@@ -25,22 +23,11 @@ HuffmanNode* new_node(void)
 
 void free_node(HuffmanNode* node)
 {
-	for (int i = 0; i < 256; i++) {
-		if (vector_contains(node->letters, i)) {
-			putc(i, stdout);
-		}
-	}
-	putc('\n', stdout);
-	printf("%d\n", node->height);
 	if (node->left != NULL) {
 		free_node(node->left);
-	} else {
-		printf("\n-1\n");
 	}
 	if (node->right != NULL) {
 		free_node(node->right);
-	} else {
-		printf("\n-1\n");
 	}
 	free_vector(node->letters);
 	free(node);
@@ -76,12 +63,6 @@ HuffmanNode* build(char* text)
 		HuffmanNode* parent = new_node();
 		parent->letters = vector_union(node1->letters, node2->letters);
 		parent->count = node1->count + node2->count;
-		// TIL there's no max() in C
-		if (node1->height > node2->height) {
-			parent->height = node1->height + 1;
-		} else {
-			parent->height = node2->height + 1;
-		}
 		parent->left = node1;
 		parent->right = node2;
 		enqueue(queue, parent->count, parent);
@@ -138,12 +119,10 @@ int main(int argc, char** argv)
 	char* result = encode(tree, text);
 	free_node(tree);
 
-	/*-
 	int j = 0;
 	while ((c = result[j]) != '\0') {
 		putc(result[j++], stdout);
 	}
-	*/
 	
 	free(result);
 	return 0;
