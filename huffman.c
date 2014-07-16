@@ -102,6 +102,7 @@ char* encode(HuffmanNode* tree, char* text)
 			}
 		}
 	}
+	result[++byteOffset] = 0;
 	return result;
 }
 
