@@ -36,7 +36,8 @@ int vector_contains(CharVector* vector, char c)
 {
 	char byteOffset = c / 8;
 	char bitOffset = c % 8;
-	return (vector->contents[byteOffset] & (1 << bitOffset));
+	char result = vector->contents[byteOffset] & (1 << bitOffset);
+	return (result != 0);
 }
 
 CharVector* vector_union(CharVector* v1, CharVector* v2)
