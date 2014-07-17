@@ -61,7 +61,8 @@ HuffmanNode* build(char* text)
 		HuffmanNode* node1 = (HuffmanNode*) dequeue(queue);
 		HuffmanNode* node2 = (HuffmanNode*) dequeue(queue);
 		HuffmanNode* parent = new_node();
-		parent->letters = vector_union(node1->letters, node2->letters);
+		vector_insert_all(parent->letters, node1->letters);
+		vector_insert_all(parent->letters, node2->letters);
 		parent->count = node1->count + node2->count;
 		parent->left = node1;
 		parent->right = node2;

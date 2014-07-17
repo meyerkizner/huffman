@@ -28,6 +28,13 @@ void vector_insert(CharVector* vector, char c)
 	vector->contents[byteOffset] |= (1 << bitOffset);
 }
 
+void vector_insert_all(CharVector* target, CharVector* origin)
+{
+	for (int i = 0; i < 32; i++) {
+		target->contents[i] |= origin->contents[i];
+	}
+}
+
 void vector_remove(CharVector* vector, char c)
 {
 	char byteOffset = c / 8;
@@ -41,14 +48,5 @@ int vector_contains(CharVector* vector, char c)
 	char bitOffset = c % 8;
 	char result = vector->contents[byteOffset] & (1 << bitOffset);
 	return (result != 0);
-}
-
-CharVector* vector_union(CharVector* v1, CharVector* v2)
-{
-	CharVector* v_union = new_vector();
-	for (int i = 0; i < 32; i++) {
-		v_union->contents[i] = v1->contents[i] | v2->contents[i];
-	}
-	return v_union;
 }
 
