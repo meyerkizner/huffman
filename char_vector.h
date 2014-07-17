@@ -13,4 +13,3 @@ void vector_insert_all(CharVector* target, CharVector* origin);
 void vector_remove(CharVector* vector, char c);
 
 int vector_contains(CharVector* vector, char c);
-

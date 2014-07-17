@@ -115,4 +115,3 @@ int encode(HuffmanTree* tree, char* text, char* resultPtr)
 	}
 	return byteOffset + 1;
 }
-

@@ -123,4 +123,3 @@ void* dequeue(PriorityQueue* queue)
 
 	return result;
 }
-

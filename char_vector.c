@@ -49,4 +49,3 @@ int vector_contains(CharVector* vector, char c)
 	char result = vector->contents[byteOffset] & (1 << bitOffset);
 	return (result != 0);
 }
-

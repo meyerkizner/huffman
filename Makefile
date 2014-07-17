@@ -16,4 +16,3 @@ huffman_tree.o: huffman_tree.c huffman_tree.h char_vector.h priority_queue.h
 .PHONY: clean
 clean:
 	rm huffman $(objects)
-
