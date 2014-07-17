@@ -70,6 +70,10 @@ void enqueue(PriorityQueue* queue, int key, void* data)
 
 void* dequeue(PriorityQueue* queue)
 {
+	if (queue->length == 0) {
+		return NULL;
+	}
+
 	void* result = queue->heap[0]->data;
 	free(queue->heap[0]);
 
