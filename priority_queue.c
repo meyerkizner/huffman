@@ -84,16 +84,27 @@ void* dequeue(PriorityQueue* queue)
 	while (nodeIndex < queue->length) {
 		int leftIndex = 2 * nodeIndex + 1;
 		int rightIndex = 2 * nodeIndex + 2;
-		HeapNode* left = queue->heap[leftIndex];
-		HeapNode* right = queue->heap[rightIndex];
-		if (leftIndex < queue->length && left->key < right->key && left->key < node->key) {
-			queue->heap[leftIndex] = node;
-			queue->heap[nodeIndex] = left;
-			nodeIndex = leftIndex;
-		} else if (rightIndex < queue->length && right->key < node->key) {
+		HeapNode* left;
+		HeapNode* right;
+		if (rightIndex < queue->length) {
+			left = queue->heap[leftIndex];
+			right = queue->heap[rightIndex];
+		} else if (leftIndex < queue->length) {
+			left = queue->heap[leftIndex];
+			right = NULL;
+		} else {
+			left = NULL;
+			right = NULL;
+		}
+
+		if (right != NULL && right->key < left->key && right->key < node->key) {
 			queue->heap[rightIndex] = node;
 			queue->heap[nodeIndex] = right;
 			nodeIndex = rightIndex;
+		} else if (left != NULL && left->key < node->key) {
+			queue->heap[leftIndex] = node;
+			queue->heap[nodeIndex] = left;
+			nodeIndex = leftIndex;
 		} else {
 			break;
 		}
