@@ -9,6 +9,9 @@ CharVector* new_vector(void)
 {
 	CharVector* vector = (CharVector*) malloc(sizeof(CharVector));
 	vector->contents = (char*) malloc(32);
+	for (int i = 0; i < 32; i++) {
+		vector->contents[i] = 0;
+	}
 	return vector;
 }
 
