@@ -37,10 +37,10 @@ void free_node(HuffmanNode* node)
 	free(node);
 }
 
-int id = 0;
-int dump_node(HuffmanNode* node)
+int dump_node(HuffmanNode* node, int* nextId)
 {
-	int nodeId = id++;
+	int nodeId = *nextId;
+	*nextId += 1;
 	printf("%d [label=\"", nodeId);
 	for (int i = 0; i < 256; i++) {
 		if (vector_contains(node->letters, i)) {
@@ -52,11 +52,11 @@ int dump_node(HuffmanNode* node)
 	}
 	printf("\"]\n");
 	if (node->left != NULL) {
-		int leftId = dump_node(node->left);
+		int leftId = dump_node(node->left, nextId);
 		printf("%d -- %d\n", nodeId, leftId);
 	}
 	if (node->right != NULL) {
-		int rightId = dump_node(node->right);
+		int rightId = dump_node(node->right, nextId);
 		printf("%d -- %d\n", nodeId, rightId);
 	}
 	return nodeId;
@@ -105,7 +105,8 @@ HuffmanTree* new_tree(int* frequencies)
 	HuffmanTree* tree = (HuffmanTree*) malloc(sizeof(HuffmanTree));
 	tree->root = root;
 	printf("graph tree {\n");
-	dump_node(root);
+	int id = 0;
+	dump_node(root, &id);
 	printf("}\n");
 	return tree;
 }
