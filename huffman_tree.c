@@ -36,17 +36,15 @@ void free_node(HuffmanNode* node)
 	free(node);
 }
 
-HuffmanTree* new_tree(char* text)
+HuffmanTree* new_tree(int length, char* text)
 {
-	int i;
 	HuffmanNode* leafNodes[256];
-	for (i = 0; i < 256; i++) {
+	for (int i = 0; i < 256; i++) {
 		leafNodes[i] = NULL;
 	}
-	
-	i = 0;
-	char c;
-	while ((c = text[i++]) != '\0') {
+
+	for (int j = 0; j < length; j++) {
+		char c = text[j];
 		if (leafNodes[c] == NULL) {
 			leafNodes[c] = new_node();
 			vector_insert(leafNodes[c]->letters, c);
@@ -55,9 +53,9 @@ HuffmanTree* new_tree(char* text)
 	}
 
 	PriorityQueue* queue = new_queue();
-	for (int j = 0; j < 256; j++) {
-		if (leafNodes[j] != NULL) {
-			enqueue(queue, leafNodes[j]->count, leafNodes[j]);
+	for (int k = 0; k < 256; k++) {
+		if (leafNodes[k] != NULL) {
+			enqueue(queue, leafNodes[k]->count, leafNodes[k]);
 		}
 	}
 	while (queue_length(queue) > 1) {
@@ -85,20 +83,19 @@ void free_tree(HuffmanTree* tree)
 	free(tree);
 }
 
-int encode(HuffmanTree* tree, char* text, char* resultPtr)
+int encode(HuffmanTree* tree, int length, char* text, char* resultPtr)
 {
 	int byteOffset = 0;
 	char bitOffset = 0;
 	resultPtr[0] = 0;
 
-	int i = 0;
-	char c;
-	while ((c = text[i++]) != '\0') {
+	for (int i = 0; i < length; i++) {
 		if (bitOffset >= 8) {
 			resultPtr[++byteOffset] = 0;
 			bitOffset = 0;
 		}
 
+		char c = text[i];
 		HuffmanNode* node = tree->root;
 		while (vector_contains(node->letters, c)) {
 			if (node->left != NULL && vector_contains(node->left->letters, c)) {

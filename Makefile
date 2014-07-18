@@ -11,7 +11,7 @@ priority_queue.o: priority_queue.c priority_queue.h
 	$(cc) -c priority_queue.c
 
 huffman_tree.o: huffman_tree.c huffman_tree.h char_vector.h priority_queue.h
-	$(cc) -c huffman_tree.c
+	$(cc) -funsigned-char -c huffman_tree.c
 
 .PHONY: clean
 clean:
