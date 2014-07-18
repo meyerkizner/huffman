@@ -124,14 +124,14 @@ int encode(HuffmanTree* tree, int length, char* input, char* resultPtr)
 	resultPtr[0] = 0;
 
 	for (int i = 0; i < length; i++) {
-		if (bitOffset >= 8) {
-			resultPtr[++byteOffset] = 0;
-			bitOffset = 0;
-		}
-
 		char c = input[i];
 		HuffmanNode* node = tree->root;
 		while (vector_contains(node->letters, c)) {
+			if (bitOffset >= 8) {
+				resultPtr[++byteOffset] = 0;
+				bitOffset = 0;
+			}
+
 			if (node->left != NULL && vector_contains(node->left->letters, c)) {
 				bitOffset += 1;
 				node = node->left;
