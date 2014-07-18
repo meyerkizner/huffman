@@ -22,6 +22,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
+	int out_length;
+	fread(&out_length, sizeof(int), 1, in_file);
 	int* frequencies = (int*) malloc(FREQ_LENGTH);
 	fread(frequencies, sizeof(int), 256, in_file);
 	char* input = (char*) malloc(in_length);
@@ -29,8 +31,8 @@ int main(int argc, char** argv)
 	fclose(in_file);
 
 	HuffmanTree* tree = new_tree(frequencies);
-	char* output = (char*) malloc(8 * in_length); // maximum theoretical compression factor
-	int out_length = decode(tree, in_length, input, output);
+	char* output = (char*) malloc(out_length);
+	decode(tree, in_length, input, out_length, output);
 	free_tree(tree);
 
 	FILE* out_file = fopen(argv[2], "wb");

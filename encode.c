@@ -24,6 +24,7 @@ int main(int argc, char** argv)
 	free_tree(tree);
 
 	FILE* out_file = fopen(argv[2], "wb");
+	fwrite(&in_length, sizeof(int), 1, out_file);
 	fwrite(frequencies, sizeof(int), 256, out_file);
 	fwrite(output, 1, out_length, out_file);
 	fclose(out_file);

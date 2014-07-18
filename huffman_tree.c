@@ -151,14 +151,14 @@ int encode(HuffmanTree* tree, int length, char* input, char* resultPtr)
 	return byteOffset + 1;
 }
 
-int decode(HuffmanTree* tree, int length, char* input, char* resultPtr)
+void decode(HuffmanTree* tree, int in_length, char* input, int out_length, char* resultPtr)
 {
 	int byteOffset = 0;
 	char bitOffset = 8;
 	int outOffset = 0;
 	char byte;
 	HuffmanNode* node = tree->root;
-	while (byteOffset < length) {
+	while (outOffset < out_length) {
 		if (bitOffset >= 8) {
 			byte = input[byteOffset++];
 			bitOffset = 0;
@@ -182,5 +182,4 @@ int decode(HuffmanTree* tree, int length, char* input, char* resultPtr)
 			node = tree->root;
 		}
 	}
-	return outOffset;
 }

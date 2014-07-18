@@ -12,4 +12,4 @@ void dump_tree(HuffmanTree* tree);
 
 int encode(HuffmanTree* tree, int length, char* input, char* resultPtr);
 
-int decode(HuffmanTree* tree, int length, char* input, char* resultPtr);
+void decode(HuffmanTree* tree, int in_length, char* input, int out_length, char* resultPtr);
