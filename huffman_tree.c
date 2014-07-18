@@ -104,7 +104,6 @@ HuffmanTree* new_tree(int* frequencies)
 
 	HuffmanTree* tree = (HuffmanTree*) malloc(sizeof(HuffmanTree));
 	tree->root = root;
-	dump_tree(tree);
 	return tree;
 }
 
