@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "huffman_tree.h"
 #include "char_vector.h"
@@ -36,26 +37,30 @@ void free_node(HuffmanNode* node)
 	free(node);
 }
 
-HuffmanTree* new_tree(int length, char* input)
+int* generate_frequencies(int length, char* input)
 {
-	HuffmanNode* leafNodes[256];
+	int* frequencies = (int*) malloc(256 * sizeof(int));
 	for (int i = 0; i < 256; i++) {
-		leafNodes[i] = NULL;
+		frequencies[i] = 0;
 	}
 
 	for (int j = 0; j < length; j++) {
 		char c = input[j];
-		if (leafNodes[c] == NULL) {
-			leafNodes[c] = new_node();
-			vector_insert(leafNodes[c]->letters, c);
-		}
-		leafNodes[c]->count += 1;
+		frequencies[c] += 1;
 	}
 
+	return frequencies;
+}
+
+HuffmanTree* new_tree(int* frequencies)
+{
 	PriorityQueue* queue = new_queue();
-	for (int k = 0; k < 256; k++) {
-		if (leafNodes[k] != NULL) {
-			enqueue(queue, leafNodes[k]->count, leafNodes[k]);
+	for (int i = 0; i < 256; i++) {
+		if (frequencies[i] > 0) {
+			HuffmanNode* node = new_node();
+			vector_insert(node->letters, i);
+			node->count = frequencies[i];
+			enqueue(queue, node->count, node);
 		}
 	}
 	while (queue_length(queue) > 1) {
@@ -111,4 +116,38 @@ int encode(HuffmanTree* tree, int length, char* input, char* resultPtr)
 		}
 	}
 	return byteOffset + 1;
+}
+
+int decode(HuffmanTree* tree, int length, char* input, char* resultPtr)
+{
+	int byteOffset = 0;
+	char bitOffset = 8;
+	int outOffset = 0;
+	char byte;
+	HuffmanNode* node = tree->root;
+	while (byteOffset < length) {
+		if (bitOffset >= 8) {
+			byte = input[byteOffset++];
+			bitOffset = 0;
+		}
+		while ((node->left != NULL || node->right != NULL) && bitOffset < 8) {
+			if (byte & (1 << (7 - bitOffset))) {
+				node = node->right;
+			} else {
+				node = node->left;
+			}
+			bitOffset += 1;
+		}
+		if (bitOffset < 8) {
+			int i;
+			for (i = 0; i < 256; i++) {
+				if (vector_contains(node->letters, i)) {
+					break;
+				}
+			}
+			resultPtr[outOffset++] = i;
+			node = tree->root;
+		}
+	}
+	return outOffset;
 }

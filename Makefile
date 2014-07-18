@@ -1,8 +1,13 @@
 cc = clang
 objects = char_vector.o priority_queue.o huffman_tree.o
 
-huffman: huffman.c huffman_tree.h $(objects)
-	$(cc) -o huffman huffman.c $(objects)
+all: encode decode
+
+encode: encode.c huffman_tree.h $(objects)
+	$(cc) -o encode encode.c $(objects)
+
+decode: decode.c huffman_tree.h $(objects)
+	$(cc) -o decode decode.c $(objects)
 
 char_vector.o: char_vector.c char_vector.h
 	$(cc) -funsigned-char -c char_vector.c
