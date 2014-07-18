@@ -2,8 +2,8 @@
 
 typedef struct HuffmanTree HuffmanTree;
 
-HuffmanTree* new_tree(int length, char* text);
+HuffmanTree* new_tree(int length, char* input);
 
 void free_tree(HuffmanTree* tree);
 
-int encode(HuffmanTree* tree, int length, char* text, char* resultPtr);
+int encode(HuffmanTree* tree, int length, char* input, char* resultPtr);

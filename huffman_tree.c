@@ -36,7 +36,7 @@ void free_node(HuffmanNode* node)
 	free(node);
 }
 
-HuffmanTree* new_tree(int length, char* text)
+HuffmanTree* new_tree(int length, char* input)
 {
 	HuffmanNode* leafNodes[256];
 	for (int i = 0; i < 256; i++) {
@@ -44,7 +44,7 @@ HuffmanTree* new_tree(int length, char* text)
 	}
 
 	for (int j = 0; j < length; j++) {
-		char c = text[j];
+		char c = input[j];
 		if (leafNodes[c] == NULL) {
 			leafNodes[c] = new_node();
 			vector_insert(leafNodes[c]->letters, c);
@@ -83,7 +83,7 @@ void free_tree(HuffmanTree* tree)
 	free(tree);
 }
 
-int encode(HuffmanTree* tree, int length, char* text, char* resultPtr)
+int encode(HuffmanTree* tree, int length, char* input, char* resultPtr)
 {
 	int byteOffset = 0;
 	char bitOffset = 0;
@@ -95,7 +95,7 @@ int encode(HuffmanTree* tree, int length, char* text, char* resultPtr)
 			bitOffset = 0;
 		}
 
-		char c = text[i];
+		char c = input[i];
 		HuffmanNode* node = tree->root;
 		while (vector_contains(node->letters, c)) {
 			if (node->left != NULL && vector_contains(node->left->letters, c)) {
