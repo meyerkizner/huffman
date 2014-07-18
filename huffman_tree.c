@@ -104,10 +104,7 @@ HuffmanTree* new_tree(int* frequencies)
 
 	HuffmanTree* tree = (HuffmanTree*) malloc(sizeof(HuffmanTree));
 	tree->root = root;
-	printf("graph tree {\n");
-	int id = 0;
-	dump_node(root, &id);
-	printf("}\n");
+	dump_tree(tree);
 	return tree;
 }
 
@@ -115,6 +112,14 @@ void free_tree(HuffmanTree* tree)
 {
 	free_node(tree->root);
 	free(tree);
+}
+
+void dump_tree(HuffmanTree* tree)
+{
+	printf("graph tree {\n");
+	int id = 0;
+	dump_node(tree->root, &id);
+	printf("}\n");
 }
 
 int encode(HuffmanTree* tree, int length, char* input, char* resultPtr)

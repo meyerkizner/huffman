@@ -8,6 +8,8 @@ HuffmanTree* new_tree(int* frequencies);
 
 void free_tree(HuffmanTree* tree);
 
+void dump_tree(HuffmanTree* tree);
+
 int encode(HuffmanTree* tree, int length, char* input, char* resultPtr);
 
 int decode(HuffmanTree* tree, int length, char* input, char* resultPtr);
